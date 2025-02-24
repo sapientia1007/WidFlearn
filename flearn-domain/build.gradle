@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.wisdom'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    implementation project(":flearn-infrastructure")
+    implementation "com.fasterxml.jackson.core:jackson-core:2.9.9"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:2.9.9"
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.2'
+    implementation 'org.springframework.data:spring-data-commons'
+}

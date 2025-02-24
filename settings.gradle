@@ -1,0 +1,5 @@
+rootProject.name = 'WidFlearn'
+include 'flearn-domain'
+include 'flearn-api'
+include 'flearn-infrastructure'
+

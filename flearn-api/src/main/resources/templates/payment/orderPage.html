@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Page</title>
+</head>
+<body>
+<h1>주문 페이지</h1>
+<form id="orderForm">
+    <label for="method">결제 방법:</label>
+    <select id="method" name="method">
+        <option value="CARD">카드</option>
+        <option value="TRANSFER">계좌이체</option>
+    </select><br>
+
+    <label for="amount">금액:</label>
+    <input type="number" id="amount" name="amount" required><br>
+
+    <label for="orderId">주문 ID:</label>
+    <input type="text" id="orderId" name="orderId" required><br>
+
+    <label for="customerEmail">이메일:</label>
+    <input type="email" id="customerEmail" name="customerEmail" required><br>
+
+    <label for="customerName">이름:</label>
+    <input type="text" id="customerName" name="customerName" required><br>
+
+    <label for="lectureId">강의 ID:</label>
+    <input type="text" id="lectureId" name="lectureId" required><br>
+
+    <label for="userId">사용자 ID:</label>
+    <input type="text" id="userId" name="userId" required><br>
+
+    <button type="button" onclick="saveOrderData()">주문하기</button>
+</form>
+
+<script>
+    async function saveOrderData() {
+        const orderData = {
+            method: document.getElementById('method').value,
+            amount: parseInt(document.getElementById('amount').value),
+            orderId: document.getElementById('orderId').value,
+            customerEmail: document.getElementById('customerEmail').value,
+            customerName: document.getElementById('customerName').value,
+            lectureId: document.getElementById('lectureId').value,
+            userId: document.getElementById('userId').value,
+        };
+
+        try {
+            const response = await fetch('/api/order/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderData),
+            });
+
+            if (response.ok) {
+                alert('주문이 성공적으로 저장되었습니다!');
+
+                localStorage.setItem('orderData', JSON.stringify(orderData));
+
+                window.location.href = 'checkout';
+            } else {
+                const errorData = await response.json();
+                console.error('저장 실패:', errorData);
+                alert('주문 저장 중 오류가 발생했습니다.');
+            }
+        } catch (error) {
+            console.error('에러 발생:', error);
+            alert('서버와 통신 중 문제가 발생했습니다.');
+        }
+    }
+</script>
+</body>
+</html>
